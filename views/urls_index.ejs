@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <% include ../views/partials/head %>
+</head>
+<body class="container">
+
+    <header>
+        <% include ../views/partials/header %>
+    </header>
+
+<body>
+ <ul>
+      <% for (url in urls){ %>
+          <li><a href="http://localhost:8080/<%= url %>">http://localhost:8080/<%= url %> </a> (<%= urls[url]%>)</li>
+      <% } %></ul>
+</body>
+
+    <footer>
+        <% include ../views/partials/footer %>
+    </footer>
+
+</body>
+</html>
