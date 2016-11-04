@@ -1,21 +1,25 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <% include ../views/partials/head %>
+  <% include ../views/partials/head %>
 </head>
 <body class="container">
-
-    <header>
-        <% include ../views/partials/header %>
-    </header>
-
-<body>
- <ul>
-      <% for (url in urls){ %>
-          <li><a href="http://localhost:8080/<%= url %>">http://localhost:8080/<%= url %> </a> (<%= urls[url]%>)</li>
-      <% } %></ul>
-</body>
+  <header>
+    <% include ../views/partials/header %>
+  </header>
+  <h2>URLs</h2>
+  <ul>
+      <% for (key in urls){ %>
+          <li>localhost:8080/u/<%= key %> -> <a href="/u/<%= key %>"><%= urls[key] %></a>
+    <form method="POST" action="/urls/<%= key %>/delete">
+    <input type="submit" value="Delete">
+    </form>
+    <form method="POST" action="/url_edit/<%= key %>">
+    <input type="text" name="new_long_url" placeholder="change your url">
+    <input type="submit" name="submitbutton" value="submit">
+    </form>
+      <% } %>
+      </ul>
 
     <footer>
         <% include ../views/partials/footer %>
