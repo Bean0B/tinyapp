@@ -2,6 +2,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser')
 
 //functions
 function generateRandomString() {
@@ -22,11 +23,15 @@ const urlDatabase = {
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+app.use(cookieParser());
 
 //routes//////////////////
 //route for homepage
 app.get('/', (req, res) => {
-  res.render('home');
+    let templateVars = {
+    username: req.cookies.username,
+  };
+  res.render('home', templateVars);
 });
 
 app.get("/urls.json", (req, res) => {
@@ -35,17 +40,24 @@ app.get("/urls.json", (req, res) => {
 //route for page where you see your urls, short and long
 app.get("/urls", (req, res) => {
   let templateVars = {
-    urls: urlDatabase };
+    urls: urlDatabase,
+    username: req.cookies.username,
+     };
   res.render("urls_index", templateVars);
 });
 //route for where you can enter in a new url
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+    let templateVars = {
+    urls: urlDatabase,
+    username: req.cookies.username,
+     };
+  res.render("urls_new", templateVars)
 });
 
 app.get("/urls/:id", (req, res) => {
   let templateVars = {
-    shortURL: req.params.id
+    shortURL: req.params.id,
+    username: req.cookies.username,
   };
   res.render("urls_view", templateVars);
 });
@@ -55,11 +67,12 @@ app.post("/u", (req, res) => {
   console.log(req.body.longURL);
   res.redirect("/urls");
 })
-//after delete go back to urlpage
+//delete route////
 app.post('/urls/:id/delete', (req,res) => {
   delete urlDatabase[req.params.id];
   res.redirect("/urls");
 })
+/////edit route/////
 app.post('/url_edit/:id', (req,res) => {
   console.log("/url_edit/:id entered with :id = req.params.id = ", req.params.id);
   console.log("/url_edit/:id entered with longURL = urlDatabase[req.params.id]", urlDatabase[req.params.id]);
@@ -77,6 +90,11 @@ app.get("/u/:id", (req, res) => {
   console.log("/u/:id longURL=", urlDatabase[shortURL]);
   res.redirect(urlDatabase[shortURL]);
 });
+
+app.post("/login", (req, res) => {
+  res.cookie("username", req.body.username)
+  res.redirect('/');
+})
 
 app.listen(app.get('port'), () => {
   console.log("let's go!");

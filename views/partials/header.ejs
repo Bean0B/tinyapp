@@ -3,21 +3,23 @@
 <nav class="navbar navbar-light bg-faded" role="navigation">
     <div class="container-fluid">
 
-        <div class="navbar-header">
+        <div class="nav navbar-nav navbar-left">
             <a class="navbar-brand" href="#">
-                <span class="glyphicon glyphicon-scissors"></span>
-                ShortnSweet
+             <span class="glyphicon glyphicon-scissors"></span>
+              ShortnSweet
             </a>
         </div>
-
         <ul class="nav navbar-nav">
-
-      <li><a href="/">Home</a></li>
-      <li><a href="/urls">Links</a></li>
-      <li><a href="/urls/new">Shorten a link!</a></li>
-
-
+          <li><a href="/">Home</a></li>
+          <li><a href="/urls">Links</a></li>
+          <li><a href="/urls/new">Shorten a link!</a></li>
+          <li><h4>Welcome, <%=username%><h4></li>
         </ul>
-
+        <ul class="nav navbar-nav navbar-right">
+        <li><form method="POST" action="/login">
+             <input name="username" placeholder="login">
+             <input type="submit" name="submitbutton" value="submit">
+          </form></li>
+        </ul>
     </div>
 </nav>
