@@ -28,7 +28,7 @@ app.use(cookieParser());
 //routes//////////////////
 //route for homepage
 app.get('/', (req, res) => {
-    let templateVars = {
+  let templateVars = {
     username: req.cookies.username,
   };
   res.render('home', templateVars);
@@ -42,15 +42,15 @@ app.get("/urls", (req, res) => {
   let templateVars = {
     urls: urlDatabase,
     username: req.cookies.username,
-     };
+  };
   res.render("urls_index", templateVars);
 });
 //route for where you can enter in a new url
 app.get("/urls/new", (req, res) => {
-    let templateVars = {
+  let templateVars = {
     urls: urlDatabase,
     username: req.cookies.username,
-     };
+  };
   res.render("urls_new", templateVars)
 });
 
@@ -66,35 +66,40 @@ app.post("/u", (req, res) => {
   urlDatabase[generateRandomString()] = req.body.longURL
   console.log(req.body.longURL);
   res.redirect("/urls");
-})
+});
 //delete route////
 app.post('/urls/:id/delete', (req,res) => {
   delete urlDatabase[req.params.id];
   res.redirect("/urls");
-})
+});
 /////edit route/////
 app.post('/url_edit/:id', (req,res) => {
-  console.log("/url_edit/:id entered with :id = req.params.id = ", req.params.id);
-  console.log("/url_edit/:id entered with longURL = urlDatabase[req.params.id]", urlDatabase[req.params.id]);
-  console.log("is this this input value of the edit form?=",req.body.new_long_url)
+  //console.log("/url_edit/:id entered with :id = req.params.id = ", req.params.id);
+  //console.log("/url_edit/:id entered with longURL = urlDatabase[req.params.id]", urlDatabase[req.params.id]);
+  //console.log("is this this input value of the edit form?=",req.body.new_long_url)
   urlDatabase[req.params.id] = "http://" + req.body.new_long_url;
-  console.log("urlDatabase=", urlDatabase);
+  //console.log("urlDatabase=", urlDatabase);
   res.redirect("/urls");
-})
-
-
-app.get("/u/:id", (req, res) => {
-  let shortURL = req.params.id;
-  console.log("/u/:id shortURL=", shortURL);
-  console.log("/u/:id urlDatabase=", urlDatabase);
-  console.log("/u/:id longURL=", urlDatabase[shortURL]);
-  res.redirect(urlDatabase[shortURL]);
 });
 
+///sortofdatabase///
+app.get("/u/:id", (req, res) => {
+  let shortURL = req.params.id;
+  // console.log("/u/:id shortURL=", shortURL);
+  // console.log("/u/:id urlDatabase=", urlDatabase);
+  // console.log("/u/:id longURL=", urlDatabase[shortURL]);
+  res.redirect(urlDatabase[shortURL]);
+});
+///login route///
 app.post("/login", (req, res) => {
   res.cookie("username", req.body.username)
   res.redirect('/');
-})
+});
+///logout route////
+app.post("/logout", (req, res) => {
+  res.clearCookie("username")
+  res.redirect("/")
+});
 
 app.listen(app.get('port'), () => {
   console.log("let's go!");

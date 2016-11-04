@@ -13,13 +13,19 @@
           <li><a href="/">Home</a></li>
           <li><a href="/urls">Links</a></li>
           <li><a href="/urls/new">Shorten a link!</a></li>
-          <li><h4>Welcome, <%=username%><h4></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-        <li><form method="POST" action="/login">
-             <input name="username" placeholder="login">
-             <input type="submit" name="submitbutton" value="submit">
-          </form></li>
+        <% if (username == null) { %>
+          <li><form method="POST" action="/login">
+            <input name="username" placeholder="login">
+            <input type="submit" name="submitbutton" value="submit">
+            </form></li>
+          <% } else { %>
+            <form action="/logout" method="POST" >
+            <h5>Welcome, <%=username%><h5>
+            <input type="submit" value="Logout">
+            </form>
+          <% }; %>
         </ul>
     </div>
 </nav>
